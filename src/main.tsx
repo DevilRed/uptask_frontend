@@ -4,6 +4,6 @@ import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    hola
+    <h1 className="font-bold underline">hihi</h1>
   </StrictMode>,
 )
