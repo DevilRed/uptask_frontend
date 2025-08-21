@@ -1,17 +1,10 @@
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
 import { ErrorMessage } from "../ErrorMessage";
+import type { ProjectFormData } from "types";
 
 type ProjectFormProps = {
-	register: UseFormRegister<{
-		projectName: string;
-		clientName: string;
-		description: string;
-	}>
-	errors: FieldErrors<{
-		projectName: string;
-		clientName: string;
-		description: string;
-	}>
+	register: UseFormRegister<ProjectFormData>
+	errors: FieldErrors<ProjectFormData>
 }
 
 export default function ProjectForm({ errors, register }: ProjectFormProps) {
@@ -25,9 +18,9 @@ export default function ProjectForm({ errors, register }: ProjectFormProps) {
 					id="projectName"
 					className="w-full p-3  border border-gray-200"
 					type="text"
-					placeholder="Nombre del Proyecto"
+					placeholder="Project name"
 					{...register("projectName", {
-						required: "El Titulo del Proyecto es obligatorio",
+						required: "Project name is required",
 					})}
 				/>
 
