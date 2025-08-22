@@ -1,4 +1,6 @@
 import { Outlet } from "react-router-dom"
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/ReactToastify.css'
 import { Logo } from "@/components/Logo"
 import NavMenu from "@/components/NavMenu"
 
@@ -24,6 +26,7 @@ export const AppLayout = () => {
 					All rights reserved - { new Date().getFullYear() }
 				</p>
 			</footer>
+			<ToastContainer />
 		</>
 	)
 }
