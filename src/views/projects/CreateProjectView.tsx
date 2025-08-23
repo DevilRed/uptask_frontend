@@ -9,8 +9,8 @@ import { createProject } from "@/api/ProjectAPI";
 export const CreateProjectView = () => {
 	const { mutate } = useMutation({
 		mutationFn: createProject,
-		onError: () => {
-			//
+		onError: (error) => {
+			toast.error(error.message);
 		},
 		onSuccess: () => {
 			toast('Project created succesfully')
