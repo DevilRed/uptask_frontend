@@ -12,7 +12,7 @@ export const DashboardView = () => {
 		return <p>Loading...</p>
 	}
 
-	return (
+	if (data) return (
 		<>
 			<h1 className="text-5xl font-black">My projects</h1>
 			<p className="text-2xl font-light text-gray-500 mt-5">Manage your projects</p>
@@ -23,6 +23,14 @@ export const DashboardView = () => {
 				to="/projects/create"
 			>New project</Link>
 			</nav>
+
+			{data?.length ? (
+				<p>si</p>
+			) : (
+				<p className="text-center py-20">There is no project though <br /> <Link to="/projects/create" className="text-fuchsia-500 font-bold"
+				>New project</Link>
+				</p>
+			)}
 		</>
 	)
 }
