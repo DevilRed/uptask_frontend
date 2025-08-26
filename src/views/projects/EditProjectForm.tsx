@@ -1,12 +1,20 @@
+import { updateProject } from "@/api/ProjectAPI"
 import ProjectForm from "@/components/projects/ProjectForm"
-import type { ProjectFormData } from "@/types/index"
+import type { Project, ProjectFormData } from "@/types/index"
+import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 
 type EditProjectFormProps = {
-	data: ProjectFormData
+	data: ProjectFormData,
+	projectId: Project['_id']
 }
-export const EditProjectForm = ({ data }: EditProjectFormProps) => {
+export const EditProjectForm = ({ data, projectId }: EditProjectFormProps) => {
+	const { mutate } = useMutation({
+		mutationFn: updateProject,
+		onError: () => { },
+		onSuccess: () => { },
+	})
 	const { register, handleSubmit, formState: { errors } } = useForm({
 		defaultValues: {
 			projectName: data.projectName,
@@ -16,7 +24,11 @@ export const EditProjectForm = ({ data }: EditProjectFormProps) => {
 	})
 
 	const handleForm = (formData: ProjectFormData) => {
-		console.log(formData);
+		const data = {
+			formData,
+			projectId
+		}
+		mutate(data)
 	}
 
 
