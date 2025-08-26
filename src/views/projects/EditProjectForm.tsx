@@ -3,17 +3,24 @@ import ProjectForm from "@/components/projects/ProjectForm"
 import type { Project, ProjectFormData } from "@/types/index"
 import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 type EditProjectFormProps = {
 	data: ProjectFormData,
 	projectId: Project['_id']
 }
 export const EditProjectForm = ({ data, projectId }: EditProjectFormProps) => {
+	const navigate = useNavigate()
 	const { mutate } = useMutation({
 		mutationFn: updateProject,
-		onError: () => { },
-		onSuccess: () => { },
+		onError: (error) => {
+			toast.error(error.message);
+		},
+		onSuccess: (data) => {
+			toast.success(data)
+			navigate('/')
+		},
 	})
 	const { register, handleSubmit, formState: { errors } } = useForm({
 		defaultValues: {

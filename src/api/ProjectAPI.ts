@@ -46,7 +46,7 @@ type updateProjectType = {
 }
 export async function updateProject({ formData, projectId }: updateProjectType) {
 	try {
-		const { data } = await api.put(`/projects/${projectId}`, formData)
+		const { data } = await api.put<string>(`/projects/${projectId}`, formData)
 		return data;
 	} catch (error) {
 		if (isAxiosError(error) && error.response) {
