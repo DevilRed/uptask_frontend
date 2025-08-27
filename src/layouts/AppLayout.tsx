@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom"
+import { Logo } from "@/components/Logo";
+import NavMenu from "@/components/NavMenu";
+import { Link, Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/ReactToastify.css'
-import { Logo } from "@/components/Logo"
-import NavMenu from "@/components/NavMenu"
+import 'react-toastify/ReactToastify.css';
 
 export const AppLayout = () => {
 	return (
@@ -11,7 +11,9 @@ export const AppLayout = () => {
 			>
 				<div className="max-w-2xl mx-auto flex flex-col lg:flex-row justify-between items-center">
 					<div className="w-64">
-						<Logo />
+						<Link to="/">
+							<Logo />
+						</Link>
 					</div>
 					<NavMenu />
 				</div>
