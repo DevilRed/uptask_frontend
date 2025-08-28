@@ -9,7 +9,7 @@ type TaskAPI = {
 
 export async function createTask({ formData, projectId }: TaskAPI) {
 	try {
-		const url = `/project/${projectId}/tasks`
+		const url = `/projects/${projectId}/tasks`
 		const { data } = await api.post<string>(url, formData)
 		return data
 	} catch (error) {
