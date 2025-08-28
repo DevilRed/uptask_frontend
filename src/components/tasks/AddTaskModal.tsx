@@ -1,19 +1,31 @@
+import type { TaskFormData } from '@/types/index';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import TaskForm from './TaskForm';
 
 export default function AddTaskModal() {
-	const navigate = useNavigate()
-	const location = useLocation()
-	const queryParams = new URLSearchParams(location.search)
-	const modalTask = queryParams.get('newTask')
-	const show = modalTask ? true: false
+    const navigate = useNavigate()
+    const location = useLocation()
+    const queryParams = new URLSearchParams(location.search)
+    const modalTask = queryParams.get('newTask')
+    const show = modalTask ? true : false
 
+    const initialValues: TaskFormData = {
+        name: '',
+        description: '',
+    }
+    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
+
+    const handleCreateTask = (formData: TaskFormData) => {
+        console.log(formData);
+    }
 
     return (
         <>
             <Transition appear show={show} as={Fragment}>
-                <Dialog as="div" className="relative z-10" onClose={() => navigate(location.pathname, { replace: true})}>
+                <Dialog as="div" className="relative z-10" onClose={() => navigate(location.pathname, { replace: true })}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -42,12 +54,23 @@ export default function AddTaskModal() {
                                         as="h3"
                                         className="font-black text-4xl  my-5"
                                     >
-                                        Nueva Tarea
+                                        New Task
                                     </Dialog.Title>
 
-                                    <p className="text-xl font-bold">Llena el formulario y crea  {''}
-                                        <span className="text-fuchsia-600">una tarea</span>
+                                    <p className="text-xl font-bold">Fill the form to add  {''}
+                                        <span className="text-fuchsia-600">a task</span>
                                     </p>
+                                    <form
+                                        className='mt-10 space-y-3'
+                                        noValidate
+                                        onSubmit={handleSubmit(handleCreateTask)}
+                                    >
+                                        <TaskForm register={register} errors={errors} />
+                                        <input
+                                            className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3 text-white uppercase font-bold cursor-pointer transition-colors"
+                                            type="submit"
+                                            value="Save Task" />
+                                    </form>
 
                                 </Dialog.Panel>
                             </Transition.Child>
