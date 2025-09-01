@@ -1,6 +1,7 @@
 import { useLocation, useParams } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query"
 import { getTaskById } from "@/api/TaskAPI"
+import EditTaskModal from "./EditTaskModal"
 
 export const EditTaskData = () => {
 	const params = useParams()
@@ -11,10 +12,9 @@ export const EditTaskData = () => {
 
 	const { data } = useQuery({
 		queryKey: ['task', taskId],
-		queryFn: () => getTaskById({ projectId: projectId, taskId: taskId })
+		queryFn: () => getTaskById({ projectId: projectId, taskId: taskId }),
+		enabled: !!taskId// converts variable to boolean based on its value
 	})
-	console.log(data);
-	return (
-		<div>EditTaskData</div>
-	)
+
+	if (data) return <EditTaskModal />
 }
