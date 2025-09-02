@@ -1,6 +1,6 @@
-import { useLocation, useParams } from "react-router-dom"
-import { useQuery } from "@tanstack/react-query"
 import { getTaskById } from "@/api/TaskAPI"
+import { useQuery } from "@tanstack/react-query"
+import { useLocation, useParams } from "react-router-dom"
 import EditTaskModal from "./EditTaskModal"
 
 export const EditTaskData = () => {
@@ -16,5 +16,5 @@ export const EditTaskData = () => {
 		enabled: !!taskId// converts variable to boolean based on its value
 	})
 
-	if (data) return <EditTaskModal />
+	if (data) return <EditTaskModal data={data} />
 }
