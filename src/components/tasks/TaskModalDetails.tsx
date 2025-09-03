@@ -1,14 +1,31 @@
+import { getTaskById } from '@/api/TaskAPI';
 import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react';
+import { useQuery } from '@tanstack/react-query';
 import { Fragment } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 export default function TaskModalDetails() {
+	const params = useParams()
+	const projectId = params.projectId!
 	const navigate = useNavigate()
 	const location = useLocation()
 	const queryParams = new URLSearchParams(location.search)
-	const taskId = queryParams.get('viewTask')
+	const taskId = queryParams.get('viewTask')!
 	const show = taskId ? true : false
+
+	const { data, isError, error } = useQuery({
+		queryFn: () => getTaskById({ projectId, taskId }),
+		queryKey: ['task', taskId],
+		enabled: !!taskId,
+		retry: false
+	})
+
+	if (isError) {
+		toast.error(error.message, { toastId: 'error' })// set toastId to avoid show error unecessarily
+		return <Navigate to={`/projects/${projectId}`} />
+	}
 
 	return (
 		<>
