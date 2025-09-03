@@ -11,7 +11,7 @@ export const ProjectDetailsView = () => {
 	const projectId = params.projectId!
 
 	const { data, isLoading, isError } = useQuery({
-		queryKey: ['editProject', projectId], // using dynamic params to avoid cache issues
+		queryKey: ['project', projectId], // using dynamic params to avoid cache issues
 		queryFn: () => getProjectById(projectId), // using arrow fn to pass a parameter to the function
 		retry: false
 	})

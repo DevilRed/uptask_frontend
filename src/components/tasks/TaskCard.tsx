@@ -25,7 +25,7 @@ export const TaskCard = ({ task }: TaskCardProps) => {
 		},
 		onSuccess: (data) => {
 			toast.success(data)
-			queryClient.invalidateQueries({ queryKey: ['editProject', projectId] })
+			queryClient.invalidateQueries({ queryKey: ['project', projectId] })
 		}
 	})
 
