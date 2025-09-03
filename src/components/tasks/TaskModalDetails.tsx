@@ -1,5 +1,5 @@
 import { getTaskById } from '@/api/TaskAPI';
-import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react';
+import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Fragment } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -27,7 +27,7 @@ export default function TaskModalDetails() {
 		return <Navigate to={`/projects/${projectId}`} />
 	}
 
-	return (
+	if (data) return (
 		<>
 			<Transition appear show={show} as={Fragment}>
 				<Dialog as="div" className="relative z-10" onClose={() => navigate(location.pathname, { replace: true })}>
@@ -57,14 +57,14 @@ export default function TaskModalDetails() {
 								<DialogPanel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-16">
 									<p className='text-sm text-slate-400'>Added on: </p>
 									<p className='text-sm text-slate-400'>Last update: </p>
-									<Dialog.Title
+									<DialogTitle
 										as="h3"
 										className="font-black text-4xl text-slate-600 my-5"
-									>Task title
-									</Dialog.Title>
-									<p className='text-lg text-slate-500 mb-2'>Description:</p>
+									>{data.name}
+									</DialogTitle>
+									<p className='text-lg text-slate-500 mb-2'>Description: {data.description}</p>
 									<div className='my-5 space-y-3'>
-										<label className='font-bold'>Status:</label>
+										<label className='font-bold'>Status: {data.status}</label>
 									</div>
 								</DialogPanel>
 							</TransitionChild>TransitionChild
