@@ -25,6 +25,7 @@ export default function TaskModalDetails() {
 		retry: false
 	})
 
+	const queryClient = useQueryClient()
 	const { mutate } = useMutation({
 		mutationFn: updateStatus,
 		onError: (error) => {
@@ -32,6 +33,8 @@ export default function TaskModalDetails() {
 		},
 		onSuccess: (data) => {
 			toast.success(data, { toastId: 'success' })
+			queryClient.invalidateQueries({ queryKey: ['project', projectId] })
+			queryClient.invalidateQueries({ queryKey: ['task', taskId] })
 		}
 	})
 
