@@ -1,4 +1,5 @@
 import { getTaskById } from '@/api/TaskAPI';
+import { statusTranslations } from '@/locales/es';
 import { formatDate } from '@/utils/utils';
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
@@ -66,6 +67,11 @@ export default function TaskModalDetails() {
 									<p className='text-lg text-slate-500 mb-2'>Description: {data.description}</p>
 									<div className='my-5 space-y-3'>
 										<label className='font-bold'>Status: {data.status}</label>
+										<select className="w-full border p-3 bg-white border-gray-300" defaultValue={data.status}>
+											{Object.entries(statusTranslations).map(status => (
+												<option key={status[0]} value={status[0]}>{status[1]}</option>
+											))}
+										</select>
 									</div>
 								</DialogPanel>
 							</TransitionChild>TransitionChild
