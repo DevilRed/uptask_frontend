@@ -1,11 +1,12 @@
-import { getTaskById } from '@/api/TaskAPI';
+import { Fragment, type ChangeEvent } from 'react';
+import { getTaskById, updateStatus } from '@/api/TaskAPI';
 import { statusTranslations } from '@/locales/es';
 import { formatDate } from '@/utils/utils';
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
-import { useQuery } from '@tanstack/react-query';
-import { Fragment } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import type { TaskStatus } from '@/types/index';
 
 
 export default function TaskModalDetails() {
@@ -23,6 +24,22 @@ export default function TaskModalDetails() {
 		enabled: !!taskId,
 		retry: false
 	})
+
+	const { mutate } = useMutation({
+		mutationFn: updateStatus,
+		onError: (error) => {
+			toast.error(error.message, { toastId: 'error' })
+		},
+		onSuccess: (data) => {
+			toast.success(data, { toastId: 'success' })
+		}
+	})
+
+	const handleChangeStatus = (e: ChangeEvent<HTMLSelectElement>) => {
+		const status = e.target.value as TaskStatus
+		const data = { projectId, taskId, status }
+		mutate(data)
+	}
 
 	if (isError) {
 		toast.error(error.message, { toastId: 'error' })// set toastId to avoid show error unecessarily
@@ -67,7 +84,10 @@ export default function TaskModalDetails() {
 									<p className='text-lg text-slate-500 mb-2'>Description: {data.description}</p>
 									<div className='my-5 space-y-3'>
 										<label className='font-bold'>Status: {data.status}</label>
-										<select className="w-full border p-3 bg-white border-gray-300" defaultValue={data.status}>
+										<select
+											className="w-full border p-3 bg-white border-gray-300"
+											defaultValue={data.status}
+											onChange={handleChangeStatus}>
 											{Object.entries(statusTranslations).map(status => (
 												<option key={status[0]} value={status[0]}>{status[1]}</option>
 											))}
