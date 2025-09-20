@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import type { UserLoginForm } from "@/types/index";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { Link } from "react-router-dom";
 
 export function LoginView() {
 
@@ -66,6 +67,12 @@ export function LoginView() {
 					className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"
 				/>
 			</form>
+			<nav className="mt-10 flex flex-col space-y-4">
+				<Link
+					to={'/auth/register'}
+					className="text-center text-gray-300 font-normal"
+				>Don't have an account? Create one</Link>
+			</nav>
 		</>
 	)
 }
