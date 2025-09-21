@@ -28,7 +28,7 @@ export const AppLayout = () => {
 					All rights reserved - { new Date().getFullYear() }
 				</p>
 			</footer>
-			<ToastContainer />
+			<ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} />
 		</>
 	)
 }
