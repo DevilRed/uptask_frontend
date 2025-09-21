@@ -37,7 +37,7 @@ export type Project = z.infer<typeof projectSchema>
 export type ProjectFormData = Pick<Project, "clientName" | "projectName" | "description">
 
 // auth users
-type authSchema = z.object({
+const authSchema = z.object({
 	name: z.string(),
 	email: z.email(),
 	password: z.string(),
