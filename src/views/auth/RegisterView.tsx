@@ -1,9 +1,9 @@
-import { useForm } from "react-hook-form";
-import type { UserRegistrationForm } from "@/types/index";
-import { ErrorMessage } from "@/components/ErrorMessage";
-import { Link } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
 import { createAccount } from "@/api/AuthAPI";
+import { ErrorMessage } from "@/components/ErrorMessage";
+import type { UserRegistrationForm } from "@/types/index";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export function RegisterView() {
@@ -142,6 +142,10 @@ export function RegisterView() {
 					to={'/auth/login'}
 					className="text-center text-gray-300 font-normal"
 				>Already have an account? Login</Link>
+				<Link
+					to={'/auth/forgot-password'}
+					className="text-center text-gray-300 font-normal"
+				>Forgot your password, reset it</Link>
 			</nav>
 		</>
 	)
