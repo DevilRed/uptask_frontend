@@ -1,10 +1,13 @@
-import type { NewPasswordForm } from "../../types";
+import type { ConfirmToken, NewPasswordForm } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
+type NewPasswordFormProps = {
+	token: ConfirmToken['token']
+}
 
-export function NewPasswordForm() {
+export function NewPasswordForm({ token }: NewPasswordFormProps) {
 	const navigate = useNavigate()
 	const initialValues: NewPasswordForm = {
 		password: '',
