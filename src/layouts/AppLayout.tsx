@@ -22,7 +22,7 @@ export const AppLayout = () => {
 							<Logo />
 						</Link>
 					</div>
-					<NavMenu />
+					<NavMenu name={data.name} />
 				</div>
 			</header>
 

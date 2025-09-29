@@ -55,8 +55,8 @@ export type ConfirmToken = Pick<Auth, 'token'>
 
 // users only
 export const userSchema = authSchema.pick({
-	// name: true,
-	// email: true
+	name: true,
+	email: true
 }).extend({
 	_id: z.string()
 })
