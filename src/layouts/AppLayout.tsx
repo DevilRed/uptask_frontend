@@ -9,7 +9,7 @@ export const AppLayout = () => {
 	const { data, isError, isLoading } = useAuth()
 
 	if (isLoading) return 'Loading...'
-	if (isError) {
+	if (!data) {
 		return <Navigate to='/auth/login' />
 	}
 	if (data) return (
