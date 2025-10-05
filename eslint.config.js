@@ -1,31 +1,39 @@
-import js from '@eslint/js'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { globalIgnores } from 'eslint/config'
-import tseslint from 'typescript-eslint'
+import js from '@eslint/js';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+;
+// add Prettier support
+import prettierConfig from 'eslint-plugin-prettier/recommended';
+import { globalIgnores } from 'eslint/config';
 
-export default [
+export default tseslint.config([
   globalIgnores(['dist']),
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-  // ...tseslint.configs.strict,      // Enable for stricter linting.
-  // ...tseslint.configs.stylistic,   // Enable for code style rules.
-  reactHooks.configs['recommended-latest'],
-  reactRefresh.configs.vite,
-  prettier,
   {
-    files: ["src/**/*.ts", "src/**/*.tsx"],
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+      reactHooks.configs['recommended-latest'],
+      reactRefresh.configs.vite,
+      prettierConfig, // extend ESLint with Prettier config
+    ],
     languageOptions: {
-      parser: tseslint.parser,
-      parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+      ecmaVersion: 2020,
+      globals: globals.browser,
     },
-    plugins: {},
-    rules: {
-      // Custom TS rules
-      "@typescript-eslint/no-non-null-assertion": "off",
-    }
+    rules: { // add Prettier rules
+      'prettier/prettier': [
+        'error',
+        {
+          semi: true,
+          trailingComma: "es5",
+          singleQuote: false,
+          printWidth: 100,
+          tabWidth: 2,
+          endOfLine: "auto"
+        }],
+    },
   },
-  {
-    ignores: ["node_modules/**","build/**"],
-  },
-]
+]);
