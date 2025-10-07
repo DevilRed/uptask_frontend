@@ -7,95 +7,88 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export function LoginView() {
+  const initialValues: UserLoginForm = {
+    email: "",
+    password: "",
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues: initialValues });
+  const navigate = useNavigate();
 
-	const initialValues: UserLoginForm = {
-		email: '',
-		password: '',
-	}
-	const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
-	const navigate = useNavigate()
+  const { mutate } = useMutation({
+    mutationFn: login,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      navigate("/");
+    },
+  });
 
-	const { mutate } = useMutation({
-		mutationFn: login,
-		onError: (error) => {
-			toast.error(error.message)
-		},
-		onSuccess: () => {
-			navigate('/')
-		},
-	})
+  const handleLogin = (formData: UserLoginForm) => mutate(formData);
 
-	const handleLogin = (formData: UserLoginForm) => mutate(formData)
+  return (
+    <>
+      <h1 className="text-5xl font-black text-white">Login</h1>
+      <p className="text-2xl font-light text-white mt-5">
+        Start planning your projects {""}
+        <span className=" text-fuchsia-500 font-bold"> login</span>
+      </p>
+      <form
+        onSubmit={handleSubmit(handleLogin)}
+        className="space-y-8 p-10 bg-white mt-10"
+        noValidate
+      >
+        <div className="flex flex-col gap-5">
+          <label className="font-normal text-2xl">Email</label>
 
-	return (
-		<>
-			<h1 className="text-5xl font-black text-white">Login</h1>
-			<p className="text-2xl font-light text-white mt-5">
-				Start planning your projects {''}
-				<span className=" text-fuchsia-500 font-bold"> login</span>
-			</p>
-			<form
-				onSubmit={handleSubmit(handleLogin)}
-				className="space-y-8 p-10 bg-white mt-10"
-				noValidate
-			>
-				<div className="flex flex-col gap-5">
-					<label
-						className="font-normal text-2xl"
-					>Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email de Registro"
+            className="w-full p-3  border-gray-300 border"
+            {...register("email", {
+              required: "El Email es obligatorio",
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "E-mail no válido",
+              },
+            })}
+          />
+          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+        </div>
 
-					<input
-						id="email"
-						type="email"
-						placeholder="Email de Registro"
-						className="w-full p-3  border-gray-300 border"
-						{...register("email", {
-							required: "El Email es obligatorio",
-							pattern: {
-								value: /\S+@\S+\.\S+/,
-								message: "E-mail no válido",
-							},
-						})}
-					/>
-					{errors.email && (
-						<ErrorMessage>{errors.email.message}</ErrorMessage>
-					)}
-				</div>
+        <div className="flex flex-col gap-5">
+          <label className="font-normal text-2xl">Password</label>
 
-				<div className="flex flex-col gap-5">
-					<label
-						className="font-normal text-2xl"
-					>Password</label>
+          <input
+            type="password"
+            placeholder="Password de Registro"
+            className="w-full p-3  border-gray-300 border"
+            {...register("password", {
+              required: "El Password es obligatorio",
+            })}
+          />
+          {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+        </div>
 
-					<input
-						type="password"
-						placeholder="Password de Registro"
-						className="w-full p-3  border-gray-300 border"
-						{...register("password", {
-							required: "El Password es obligatorio",
-						})}
-					/>
-					{errors.password && (
-						<ErrorMessage>{errors.password.message}</ErrorMessage>
-					)}
-				</div>
-
-				<input
-					type="submit"
-					value='Iniciar Sesión'
-					className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"
-				/>
-			</form>
-			<nav className="mt-10 flex flex-col space-y-4">
-				<Link
-					to={'/auth/register'}
-					className="text-center text-gray-300 font-normal"
-				>Don't have an account? Create one</Link>
-				<Link
-					to={'/auth/forgot-password'}
-					className="text-center text-gray-300 font-normal"
-				>Forgot your password, reset it</Link>
-			</nav>
-		</>
-	)
+        <input
+          type="submit"
+          value="Iniciar Sesión"
+          className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"
+        />
+      </form>
+      <nav className="mt-10 flex flex-col space-y-4">
+        <Link to={"/auth/register"} className="text-center text-gray-300 font-normal">
+          Don't have an account? Create one
+        </Link>
+        <Link to={"/auth/forgot-password"} className="text-center text-gray-300 font-normal">
+          Forgot your password, reset it
+        </Link>
+      </nav>
+    </>
+  );
 }

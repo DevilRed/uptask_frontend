@@ -7,6 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:report": "eslint . --format json --output-file eslint-report.json",
+    "type-check": "tsc --noEmit",
     "preview": "vite preview",
     "format": "prettier --write ."
   },
