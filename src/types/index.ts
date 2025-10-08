@@ -74,7 +74,7 @@ export const userSchema = authSchema
 export type User = z.infer<typeof userSchema>;
 
 // team
-const teamMemberSchema = userSchema.pick({
+export const teamMemberSchema = userSchema.pick({
   name: true,
   email: true,
   _id: true,

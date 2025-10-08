@@ -1,3 +1,4 @@
+import { findUserByEmail } from "@/api/TeamAPI";
 import type { TeamMemberForm } from "@/types/index";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -18,9 +19,19 @@ export default function AddMemberForm() {
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
 
-  const mutation = useMutation({});
+  // use the whole mutation object to get response data of mutation done
+  const mutation = useMutation({
+    mutationFn: findUserByEmail,
+    // onError: () => {},
+    // onSuccess: () => {},
+  });
 
-  const handleSearchUser = async () => {};
+  const handleSearchUser = async (formData: TeamMemberForm) => {
+    // prepare data for required by mutation fn
+    // formData has email, name
+    const data = { projectId, formData };
+    mutation.mutate(data);
+  };
 
   return (
     <>
