@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { ErrorMessage } from "../ErrorMessage";
+import { SearchResult } from "./SearchResult";
 
 export default function AddMemberForm() {
   const initialValues: TeamMemberForm = {
@@ -66,6 +67,7 @@ export default function AddMemberForm() {
       <div className="mt-10">
         {mutation.isPending && <p className="text-center">Loading...</p>}
         {mutation.error && <p className="text-center">{mutation.error.message}</p>}
+        {mutation.data && <SearchResult user={mutation.data} />}
       </div>
     </>
   );
