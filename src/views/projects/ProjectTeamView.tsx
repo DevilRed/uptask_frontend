@@ -50,7 +50,7 @@ export const ProjectTeamView = () => {
           </Link>
         </nav>
 
-        <h2 className="text-5xl font-black my-10">Miembros actuales</h2>
+        <h2 className="text-5xl font-black my-10">Current Members</h2>
         {data.length ? (
           <ul
             role="list"
