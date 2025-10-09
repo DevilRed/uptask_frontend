@@ -1,20 +1,31 @@
 import { Fragment } from "react";
 import AddMemberModal from "@/components/team/AddMemberModal";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getProjectTeam } from "@/api/TeamAPI";
-import { Menu, MenuButton, Transition } from "@headlessui/react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getProjectTeam, removeUserFromProject } from "@/api/TeamAPI";
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { toast } from "react-toastify";
 
 export const ProjectTeamView = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const projectId = params.projectId;
+  const projectId = params.projectId!;
   const { data, isLoading, isError } = useQuery({
     queryKey: ["projectTeam", projectId],
     queryFn: () => getProjectTeam(projectId!),
     retry: false,
   });
+  const { mutate } = useMutation({
+    mutationFn: removeUserFromProject,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data);
+    },
+  });
+
   if (isLoading) return "Loading...";
   if (isError) return <Navigate to={"/404"} />;
 
@@ -68,16 +79,17 @@ export const ProjectTeamView = () => {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                        <Menu.Item>
+                      <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                        <MenuItem>
                           <button
                             type="button"
                             className="block px-3 py-1 text-sm leading-6 text-red-500"
+                            onClick={() => mutate({ projectId, userId: member._id })}
                           >
                             Eliminar del Proyecto
                           </button>
-                        </Menu.Item>
-                      </Menu.Items>
+                        </MenuItem>
+                      </MenuItems>
                     </Transition>
                   </Menu>
                 </div>
