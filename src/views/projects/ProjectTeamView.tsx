@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import AddMemberModal from "@/components/team/AddMemberModal";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProjectTeam, removeUserFromProject } from "@/api/TeamAPI";
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
@@ -11,6 +11,8 @@ export const ProjectTeamView = () => {
   const navigate = useNavigate();
   const params = useParams();
   const projectId = params.projectId!;
+
+  const queryClient = useQueryClient();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["projectTeam", projectId],
     queryFn: () => getProjectTeam(projectId!),
@@ -23,6 +25,9 @@ export const ProjectTeamView = () => {
     },
     onSuccess: (data) => {
       toast.success(data);
+      queryClient.invalidateQueries({
+        queryKey: ["projectTeam", projectId],
+      });
     },
   });
 
@@ -83,10 +88,10 @@ export const ProjectTeamView = () => {
                         <MenuItem>
                           <button
                             type="button"
-                            className="block px-3 py-1 text-sm leading-6 text-red-500"
+                            className="block px-3 py-1 text-sm leading-6 text-red-500 cursor-pointer"
                             onClick={() => mutate({ projectId, userId: member._id })}
                           >
-                            Eliminar del Proyecto
+                            Delete from Project
                           </button>
                         </MenuItem>
                       </MenuItems>
