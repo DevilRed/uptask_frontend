@@ -1,12 +1,12 @@
-import { Fragment, type ChangeEvent } from "react";
 import { getTaskById, updateStatus } from "@/api/TaskAPI";
 import { statusTranslations } from "@/locales/es";
+import type { TaskStatus } from "@/types/index";
 import { formatDate } from "@/utils/utils";
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Fragment, type ChangeEvent } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import type { TaskStatus } from "@/types/index";
 
 export default function TaskModalDetails() {
   const params = useParams();
@@ -89,6 +89,12 @@ export default function TaskModalDetails() {
                       {data.name}
                     </DialogTitle>
                     <p className="text-lg text-slate-500 mb-2">Description: {data.description}</p>
+                    {data.completedBy && (
+                      <p>
+                        <span className="font-bold text-slate-600">Updated By: </span>
+                        {data.completedBy.name}
+                      </p>
+                    )}
                     <div className="my-5 space-y-3">
                       <label className="font-bold">Status: {data.status}</label>
                       <select
