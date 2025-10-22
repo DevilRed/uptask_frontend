@@ -32,12 +32,13 @@ export const userSchema = authSchema
 export type User = z.infer<typeof userSchema>;
 
 // notes
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 const noteSchema = z.object({
   _id: z.string(),
   content: z.string(),
   createdBy: userSchema,
   task: z.string(),
+  createdAt: z.string(),
 });
 
 export type Note = z.infer<typeof noteSchema>;
@@ -64,6 +65,11 @@ export const taskSchema = z.object({
       _id: z.string(),
       user: userSchema.or(z.null()), // nullable user schema
       status: taskStatusSchema,
+    })
+  ),
+  notes: z.array(
+    noteSchema.extend({
+      createdBy: userSchema,
     })
   ),
   createdAt: z.string(),
