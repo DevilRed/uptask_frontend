@@ -60,6 +60,26 @@ export const TaskList = ({ tasks, canEdit }: TaskListProps) => {
       const taskId = active.id.toString(); // active has the task id
       const status = over.id as TaskStatus; // over has the status
       mutate({ projectId, taskId, status });
+
+      // improve react-query by using optimitisc updates to improve app performance
+      // setQueryData to add additional data or update them instead of invalidate queries
+      queryClient.setQueryData(["project", projectId], (prevData) => {
+        // set updated data
+        const updatedTasks = prevData.task.map((task: Task) => {
+          // if task is the same triggering the drag event, update the status
+          if (task._id === taskId) {
+            return {
+              ...task,
+              status,
+            };
+          }
+          return task;
+        });
+        return {
+          ...prevData,
+          tasks: updatedTasks,
+        };
+      });
     }
   };
 
