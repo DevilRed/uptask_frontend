@@ -40,14 +40,14 @@ export const TaskCard = ({ task, canEdit }: TaskCardProps) => {
     : undefined;
 
   return (
-    <li
-      {...listeners}
-      {...attributes}
-      ref={setNodeRef}
-      style={style}
-      className="p-5 bg-white border border-slate-300 flex justify-between gap-3"
-    >
-      <div className="min-w-0 flex flex-col gap-y-4">
+    <li className="p-5 bg-white border border-slate-300 flex justify-between gap-3">
+      <div
+        {...listeners}
+        {...attributes}
+        ref={setNodeRef}
+        style={style}
+        className="min-w-0 flex flex-col gap-y-4"
+      >
         <button
           type="button"
           className="text-xl font-bold text-slate-600 text-left cursor-pointer"
