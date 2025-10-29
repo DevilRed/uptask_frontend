@@ -109,6 +109,13 @@ export type Project = z.infer<typeof projectSchema>;
 
 export type ProjectFormData = Pick<Project, "clientName" | "projectName" | "description">;
 
+// use required data only for edit project
+export const editProjectSchema = projectSchema.pick({
+  projectName: true,
+  clientName: true,
+  description: true,
+});
+
 // team
 export const teamMemberSchema = userSchema.pick({
   name: true,
